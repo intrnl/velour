@@ -150,6 +150,8 @@ const commit = (stack) => {
 
 				let key = is_dynamic ? Symbol() : false;
 
+				fragment._insert(target, null);
+
 				effect(() => {
 					let next = when.value;
 					let normalized = is_dynamic ? next : !!next;
@@ -170,7 +172,7 @@ const commit = (stack) => {
 							_value: is_dynamic ? untrack(() => children(next)) : children,
 						});
 
-						fragment._attach(target);
+						fragment._attach();
 						commit(child_stack);
 					}
 				});
@@ -227,7 +229,7 @@ const commit = (stack) => {
 								? child_context.run(() => untrack(() => children(state, index)))
 								: children;
 
-							child_target._attach(target, before);
+							child_target._insert(target, before);
 
 							parts.push({ _context: child_context, _target: child_target, _signal: state });
 							child_stack.push({ _context: child_context, _target: child_target, _value: ret });
@@ -296,6 +298,9 @@ class SyntheticFragment {
 
 		/** @type {Comment} */
 		this._anchor = document.createComment('');
+
+		/** @type {boolean} */
+		this._attached = false;
 	}
 
 	get nextSibling () {
@@ -338,12 +343,17 @@ class SyntheticFragment {
 	 * @param {ParentNode} parent
 	 * @param {Node} ref
 	 */
-	_attach (parent, ref) {
+	_insert (parent, ref) {
+		const anchor = this._anchor;
+		parent.insertBefore(anchor, ref);
+
+		this._attach();
+	}
+
+	_attach () {
 		const anchor = this._anchor;
 		const nodes = this._nodes;
 		const length = nodes.length;
-
-		parent.insertBefore(anchor, ref);
 
 		if (length > 0) {
 			if (length < 32768) {
@@ -356,18 +366,13 @@ class SyntheticFragment {
 				}
 			}
 		}
+
+		this._attached = true;
 	}
 
 	_detach (clear) {
-		const anchor = this._anchor;
 		const nodes = this._nodes;
 		const length = nodes.length;
-
-		if (!anchor.isConnected) {
-			return;
-		}
-
-		anchor.remove();
 
 		if (length > 0) {
 			if (length < 32768) {
@@ -384,7 +389,9 @@ class SyntheticFragment {
 		}
 
 		if (clear) {
-			this._nodes.length = 0;
+			nodes.length = 0;
 		}
+
+		this._attached = false;
 	}
 }
