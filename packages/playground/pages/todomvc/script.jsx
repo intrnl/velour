@@ -149,13 +149,15 @@ const App = () => {
 
 						<ul className='filters'>
 							<li>
-								<a classList={{ selected: visibility === 'all' }} href='#/'>All</a>
+								<a classList={readable(() => ({ selected: visibility.value === 'all' }))} href='#/'>All</a>
 							</li>
 							<li>
-								<a classList={{ selected: visibility === 'active' }} href='#/active'>Active</a>
+								<a classList={readable(() => ({ selected: visibility.value === 'active' }))} href='#/active'>Active</a>
 							</li>
 							<li>
-								<a classList={{ selected: visibility === 'completed' }} href='#/completed'>Completed</a>
+								<a classList={readable(() => ({ selected: visibility.value === 'completed' }))} href='#/completed'>
+									Completed
+								</a>
 							</li>
 						</ul>
 
