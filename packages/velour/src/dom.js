@@ -194,6 +194,6 @@ export const setClassList = (element, value) => {
 		});
 	}
 	else {
-		setClassList(element, value);
+		setClassListStatic(element, value);
 	}
 };
