@@ -124,7 +124,7 @@ const commit = (stack) => {
 			const render = value._render;
 			const props = value._props;
 
-			const ret = render(props);
+			const ret = untrack(() => render(props));
 
 			stack.push({ _context: context, _target: target, _value: ret });
 		}
