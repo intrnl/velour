@@ -66,7 +66,7 @@ const commit = (stack) => {
 		const target = node._target;
 		const value = node._value;
 
-		if (value === false || value === undefined || value === null) {
+		if (value === undefined || value === null || typeof value === 'boolean') {
 			continue;
 		}
 		else if (typeof value === 'string' || typeof value === 'number') {
