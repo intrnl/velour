@@ -302,14 +302,6 @@ class SyntheticFragment {
 		return node.nextSibling;
 	}
 
-	get previousSibling () {
-		const nodes = this._nodes;
-		const length = nodes.length;
-
-		const node = length > 0 ? nodes[0] : this._anchor;
-		return node.previousSibling;
-	}
-
 	/**
 	 * @param {Node} node
 	 * @param {Node | null} ref
