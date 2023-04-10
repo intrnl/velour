@@ -1,0 +1,9 @@
+{
+	"private": true,
+	"name": "@intrnl/velour-playground",
+	"dependencies": {
+		"@intrnl/velour": "workspace:^0.1.0",
+		"perf-monitor": "^0.4.1",
+		"vite": "^4.2.1"
+	}
+}
