@@ -9,8 +9,6 @@ let DISPOSED = 1 << 3;
 let HAS_ERROR = 1 << 4;
 let TRACKING = 1 << 5;
 
-let depth_sort = (a, b) => a._depth - b._depth;
-
 /** @type {Scope | undefined} */
 export let eval_scope;
 
@@ -21,8 +19,8 @@ let eval_sources;
 /** @type {number} */
 let eval_sources_idx = 0;
 
-/** @type {Effect[] | undefined} */
-let batched_effects;
+/** @type {Effect | undefined} */
+let batched_effect;
 /** current batch depth */
 let batch_depth = 0;
 /** how many times we've been iterating through batched updates */
@@ -46,16 +44,16 @@ const end_batch = () => {
 	let error;
 	let has_error = false;
 
-	while (batched_effects) {
-		let effects = batched_effects.sort(depth_sort);
-		let idx = 0;
-		let len = effects.length;
+	while (batched_effect) {
+		let effect = batched_effect;
 
-		batched_effects = undefined;
+		batched_effect = undefined;
 		batch_iteration++;
 
-		for (; idx < len; idx++) {
-			let effect = effects[idx];
+		while (effect) {
+			let next_effect = effect._next_batched_effect;
+
+			effect._next_batched_effect = undefined;
 			effect._flags &= ~NOTIFIED;
 
 			if (!(effect._flags & DISPOSED) && need_recompute(effect)) {
@@ -64,11 +62,13 @@ const end_batch = () => {
 				}
 				catch (err) {
 					if (!has_error) {
-						error = err;
 						has_error = true;
+						error = err;
 					}
 				}
 			}
+
+			effect = next_effect;
 		}
 	}
 
@@ -496,6 +496,9 @@ export class Effect {
 		_this._flags = TRACKING;
 		/** @internal @type {number} */
 		_this._depth = 0;
+
+		/** @internal @type {Effect | undefined} */
+		_this._next_batched_effect = undefined;
 	}
 
 	/**
@@ -551,7 +554,9 @@ export class Effect {
 
 		if (!(_this._flags & (NOTIFIED | RUNNING))) {
 			_this._flags |= OUTDATED | NOTIFIED;
-			(batched_effects ||= []).push(_this);
+
+			_this._next_batched_effect = batched_effect;
+			batched_effect = _this;
 		}
 	}
 
