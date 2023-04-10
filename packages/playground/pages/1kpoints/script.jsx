@@ -63,7 +63,7 @@ function App () {
 	);
 }
 
-function VizDemo (props) {
+function VizDemo ({ count }) {
 	const NUM_STEPS = 60 * 2;
 
 	const points = signal([]);
@@ -107,8 +107,10 @@ function VizDemo (props) {
 	};
 
 	effect(() => {
-		if (_count !== props.count) {
-			_count = props.count.value;
+		const next = count.value;
+
+		if (_count !== next) {
+			_count = next;
 
 			phyllotaxis = genPhyllotaxis(_count);
 			spiral = genSpiral(_count);
