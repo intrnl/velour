@@ -1,4 +1,4 @@
-import { Show, computed, render, signal } from '@intrnl/velour';
+import { Show, readable, render, signal } from '@intrnl/velour';
 
 const Counter = ({ initialValue = 0 }) => {
 	const count = signal(initialValue);
@@ -9,12 +9,12 @@ const Counter = ({ initialValue = 0 }) => {
 				count: {count}
 			</button>
 
-			<div>doubled: {computed(() => count.value * 2)}</div>
+			<div>doubled: {readable(() => count.value * 2)}</div>
 
-			<Show when={computed(() => count.value % 2 === 0)}>
+			<Show when={readable(() => count.value % 2 === 0)}>
 				odd!
 			</Show>
-			<Show when={computed(() => count.value % 2 !== 0)}>
+			<Show when={readable(() => count.value % 2 !== 0)}>
 				even!
 			</Show>
 		</>
