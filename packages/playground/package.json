@@ -1,9 +1,15 @@
 {
 	"private": true,
 	"name": "@intrnl/velour-playground",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build"
+	},
 	"dependencies": {
 		"@intrnl/velour": "workspace:^0.1.0",
-		"perf-monitor": "^0.4.1",
+		"perf-monitor": "^0.4.1"
+	},
+	"devDependencies": {
 		"vite": "^4.2.1"
 	}
 }
