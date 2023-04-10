@@ -165,7 +165,7 @@ function VizDemo ({ count }) {
 			<Index each={points}>
 				{(point) => (
 					<rect
-						class='point'
+						className='point'
 						transform={readable(() => `translate(${Math.floor(point.value.x)}, ${Math.floor(point.value.y)})`)}
 						fill={readable(() => point.value.color)}
 					/>

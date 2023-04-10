@@ -7,29 +7,29 @@ import './env.js';
 
 function Table (props) {
 	return (
-		<table class='table table-striped latest-data'>
+		<table className='table table-striped latest-data'>
 			<tbody>
 				<Index each={props.dbs}>
 					{(db) => (
 						<tr>
-							<td class='dbname'>
+							<td className='dbname'>
 								{readable(() => db.value.dbname)}
 							</td>
 
-							<td class='query-count'>
-								<span class={readable(() => db.value.lastSample.countClassName)}>
+							<td className='query-count'>
+								<span className={readable(() => db.value.lastSample.countClassName)}>
 									{readable(() => db.value.lastSample.nbQueries)}
 								</span>
 							</td>
 
 							<Index each={readable(() => db.value.lastSample.topFiveQueries)}>
 								{(query) => (
-									<td class={readable(() => query.value.elapsedClassName)}>
+									<td className={readable(() => query.value.elapsedClassName)}>
 										{readable(() => query.value.formatElapsed)}
 
-										<div class='popover left'>
-											<div class='popover-content'>{readable(() => query.value.query)}</div>
-											<div class='arrow'></div>
+										<div className='popover left'>
+											<div className='popover-content'>{readable(() => query.value.query)}</div>
+											<div className='arrow'></div>
 										</div>
 									</td>
 								)}
