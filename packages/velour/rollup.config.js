@@ -26,7 +26,7 @@ export default defineConfig({
 	plugins: [
 		{
 			name: 'esbuild',
-			transform (code) {
+			renderChunk (code) {
 				let result = esbuild.transformSync(code, {
 					sourcemap: true,
 					mangleProps: /^_/,
