@@ -734,6 +734,19 @@ export const peek = (value) => {
 
 /**
  * @template T
+ * @param {T | Signal<T> | Readable<T>} value
+ * @returns {T}
+ */
+export const unwrap = (value) => {
+	if (is_readable(value)) {
+		return value.value;
+	}
+
+	return value;
+};
+
+/**
+ * @template T
  * @param {T} value
  * @returns {Signal<T>}
  */
