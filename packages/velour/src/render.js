@@ -311,13 +311,6 @@ class SyntheticFragment {
 	}
 
 	/**
-	 * @param {ChildNode} node
-	 */
-	appendChild (node) {
-		this.insertBefore(node, null);
-	}
-
-	/**
 	 * @param {Node} node
 	 * @param {Node | null} ref
 	 */
