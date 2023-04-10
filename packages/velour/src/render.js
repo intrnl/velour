@@ -176,7 +176,11 @@ const commit = (stack) => {
 				});
 			}
 			else if (when) {
-				stack.push({ _context: context, _target: target, _value: is_dynamic ? children() : children });
+				stack.push({
+					_context: context,
+					_target: target,
+					_value: is_dynamic ? untrack(() => children(when)) : children,
+				});
 			}
 		}
 		else if (value instanceof ListIndexNode) {
