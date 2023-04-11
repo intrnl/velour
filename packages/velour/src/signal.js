@@ -495,7 +495,6 @@ export class Effect {
 		/** @internal @type {number} */
 		_this._flags = TRACKING;
 		/** @internal @type {number} */
-		_this._depth = 0;
 
 		/** @internal @type {Effect | undefined} */
 		_this._next_batched_effect = undefined;
@@ -610,13 +609,9 @@ export class Scope {
 		_this.cleanups = [];
 		/** @type {Scope | undefined} */
 		_this.parent = undefined;
-		/** @internal @type {number} */
-		_this._depth = 0;
 
 		if (parent) {
 			_this.parent = parent;
-			_this._depth = parent._depth + 1;
-
 			parent.scopes.push(_this);
 		}
 	}
@@ -787,7 +782,6 @@ export const effect = (compute) => {
 	}
 
 	if (eval_scope && effect._sources.length > 0) {
-		effect._depth = eval_scope._depth;
 		eval_scope.cleanups.push(dispose);
 	}
 
