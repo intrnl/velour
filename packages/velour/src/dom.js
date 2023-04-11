@@ -133,25 +133,6 @@ const setStyleStatic = (element, value) => {
 	if (typeof value === 'string') {
 		style.cssText = value;
 	}
-	else if (value) {
-		const old = element[STYLE_CACHE];
-
-		for (const key in old) {
-			if (!(key in value)) {
-				setStyle(style, key, '');
-			}
-		}
-
-		for (const key in value) {
-			const val = value[key];
-
-			if (!old || val !== old[key]) {
-				setStyleValue(style, key, val);
-			}
-		}
-
-		element[STYLE_CACHE] = value;
-	}
 	else {
 		style.cssText = '';
 	}
@@ -162,6 +143,23 @@ export const setStyle = (element, value) => {
 		effect(() => {
 			setStyleStatic(element, value.value);
 		});
+	}
+	else if (typeof value === 'object' && value) {
+		const style = element.style;
+
+		for (const key in value) {
+			const val = value[key];
+			const is_dynamic = is_readable(val);
+
+			if (is_dynamic) {
+				effect(() => {
+					setStyleValue(style, key, val.value);
+				});
+			}
+			else {
+				setStyleValue(style, key, val);
+			}
+		}
 	}
 	else {
 		setStyleStatic(element, value);
@@ -174,7 +172,6 @@ export const setClassList = (element, value, classNameValue) => {
 
 	for (const key in value) {
 		const val = value[key];
-
 		const is_dynamic = is_readable(val);
 
 		if (is_cn_dynamic) {
