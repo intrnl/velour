@@ -1,4 +1,4 @@
-import { Index, cleanup, effect, render, signal } from '@intrnl/velour';
+import { Index, cleanup, effect, readable, render, signal } from '@intrnl/velour';
 import * as perfmon from 'perf-monitor';
 
 import { interpolateViridis } from './viridis.js';
