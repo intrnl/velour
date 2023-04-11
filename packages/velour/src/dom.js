@@ -1,7 +1,6 @@
-import { Signal, effect, is_readable } from './signal.js';
+import { effect, is_readable } from './signal.js';
 
 const STYLE_CACHE = Symbol('velour.style-cache');
-const CLASSLIST_CACHE = Symbol('velour.classlist-cache');
 const LISTENER_CACHE = Symbol('velour.listener-cache');
 
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
@@ -55,7 +54,7 @@ export const set_dom_props = (element, props, is_svg) => {
 			element.addEventListener(name, handler, capture);
 		}
 		else if (key === 'classList') {
-			setClassList(element, val);
+			setClassList(element, val, props['className'] || props['class']);
 		}
 		else if (key === 'style') {
 			setStyle(element, val);
@@ -169,31 +168,28 @@ export const setStyle = (element, value) => {
 	}
 };
 
-const setClassListStatic = (element, value) => {
-	/** @type {DOMTokenList} */
+export const setClassList = (element, value, classNameValue) => {
+	const is_cn_dynamic = is_readable(classNameValue);
 	const list = element.classList;
-	const old = element[CLASSLIST_CACHE];
-
-	for (const key in old) {
-		if (!(key in old)) {
-			list.remove(old[key]);
-		}
-	}
 
 	for (const key in value) {
-		list.toggle(key, value[key]);
-	}
+		const val = value[key];
 
-	element[CLASSLIST_CACHE] = value;
-};
+		const is_dynamic = is_readable(val);
 
-export const setClassList = (element, value) => {
-	if (is_readable(value)) {
-		effect(() => {
-			setClassListStatic(element, value.value);
-		});
-	}
-	else {
-		setClassListStatic(element, value);
+		if (is_cn_dynamic) {
+			effect(() => {
+				classNameValue.value;
+				list.toggle(key, !!(is_dynamic ? val.value : val));
+			});
+		}
+		else if (is_dynamic) {
+			effect(() => {
+				list.toggle(key, !!val.value);
+			});
+		}
+		else if (val) {
+			list.add(key);
+		}
 	}
 };

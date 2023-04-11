@@ -106,11 +106,11 @@ const App = () => {
 						<Index each={filtered_items}>
 							{(item) => (
 								<li
-									classList={readable(() => ({
+									classList={{
 										todo: true,
-										completed: item.value.completed,
-										editing: editing.value && editing.value === item.value.id,
-									}))}
+										completed: readable(() => item.value.completed),
+										editing: readable(() => editing.value && editing.value === item.value.id),
+									}}
 								>
 									<div className='view'>
 										<input
@@ -149,13 +149,17 @@ const App = () => {
 
 						<ul className='filters'>
 							<li>
-								<a classList={readable(() => ({ selected: visibility.value === 'all' }))} href='#/'>All</a>
+								<a classList={{ selected: readable(() => visibility.value === 'all') }} href='#/'>
+									All
+								</a>
 							</li>
 							<li>
-								<a classList={readable(() => ({ selected: visibility.value === 'active' }))} href='#/active'>Active</a>
+								<a classList={{ selected: readable(() => visibility.value === 'active') }} href='#/active'>
+									Active
+								</a>
 							</li>
 							<li>
-								<a classList={readable(() => ({ selected: visibility.value === 'completed' }))} href='#/completed'>
+								<a classList={{ selected: readable(() => visibility.value === 'completed') }} href='#/completed'>
 									Completed
 								</a>
 							</li>
