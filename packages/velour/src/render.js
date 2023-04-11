@@ -241,7 +241,7 @@ const commit = (stack) => {
 							const part = parts[index];
 
 							part._context.clear();
-							part._target._detach(true);
+							part._target._remove(true);
 						}
 
 						parts.length = items_len;
@@ -348,6 +348,11 @@ class SyntheticFragment {
 		parent.insertBefore(anchor, ref);
 
 		this._attach();
+	}
+
+	_remove () {
+		this._detach(true);
+		this._anchor.remove();
 	}
 
 	_attach () {
