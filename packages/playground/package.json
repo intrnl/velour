@@ -6,7 +6,7 @@
 		"build": "vite build"
 	},
 	"dependencies": {
-		"@intrnl/velour": "workspace:^0.1.0",
+		"@intrnl/velour": "workspace:^",
 		"perf-monitor": "^0.4.1"
 	},
 	"devDependencies": {
