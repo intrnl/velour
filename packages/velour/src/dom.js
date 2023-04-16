@@ -59,6 +59,9 @@ export const set_dom_props = (element, props, is_svg) => {
 		else if (key === 'style') {
 			setStyle(element, val);
 		}
+		else if (key === 'class') {
+			setProperty(element, 'className', val);
+		}
 		else if (!is_svg && key in element) {
 			setProperty(element, key, val);
 		}
