@@ -10,6 +10,6 @@
 		"perf-monitor": "^0.4.1"
 	},
 	"devDependencies": {
-		"vite": "^4.2.1"
+		"vite": "^4.3.3"
 	}
 }

@@ -8,7 +8,7 @@
 		"watch": "rollup -cw"
 	},
 	"devDependencies": {
-		"esbuild": "^0.17.17",
-		"rollup": "^3.20.3"
+		"esbuild": "^0.17.18",
+		"rollup": "^3.21.0"
 	}
 }
