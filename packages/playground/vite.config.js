@@ -7,6 +7,11 @@ export default defineConfig({
 		jsxImportSource: '@intrnl/velour',
 	},
 	build: {
+		sourcemap: true,
+		target: 'esnext',
+		modulePreload: {
+			polyfill: false,
+		},
 		rollupOptions: {
 			input: {
 				'main': './index.html',
