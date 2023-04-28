@@ -7,6 +7,7 @@ export default defineConfig({
 		jsxImportSource: '@intrnl/velour',
 	},
 	build: {
+		minify: 'terser',
 		sourcemap: true,
 		target: 'esnext',
 		modulePreload: {
